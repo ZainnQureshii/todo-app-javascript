@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <title>Document</title>
+</head>
+<body onload="getTasks()">
+    <div class="container">
+        <div class="jumbotron">
+            <form id="form1" onsubmit="return false">
+                <div class="form-group">
+                    <label>Task:</label>
+                    <input type="text" id="inputTask" placeholder="Enter Task" class="form-control" />
+                    <br>
+                    <label>Time</label>
+                    <input type="number" id="inputTime" placeholder="Enter Time" class="form-control" /> 
+                    <br>
+                    <select name="" id="AMPM" class="form-control" >
+                        <option>AM</option>
+                        <option>PM</option>
+                    </select>
+                    <br>
+                    <br>
+                    <button class="btn btn-success btn-lg" type="submit" onclick="add()">Add</button>
+                    <hr>
+                    
+                </div>
+            </form>
+        </div>
+
+        
+        <p id="toDo"></p>
+    </div>
+
+    <script>
+        var toDoTask = ['Task1','Task2'];
+        var toDoTime = ['1','2'];
+        var ampm = document.getElementById('AMPM').value;
+        var i = 0;
+        
+        function increment(){
+            i++;
+            return i;
+        }
+        
+        function getTasks(){
+            var final = document.getElementById('toDo');
+            
+            for(var j = 0; j<toDoTask.length;j++){
+                var remove = " <button id="+i+" class='btn btn-danger btn-sm' type='button' onclick='remove(this.id)'>Delete</button>";
+                var edit = " <button id="+i+" class='btn btn-sm' type='button' onclick='edit(this.id)'>Edit</button>";
+
+                final.innerHTML += "<h3>" + increment() +": </h3>" + toDoTask[j] + " at " +
+                                toDoTime[j] +  " " + ampm + remove + edit + "<hr><br>";
+            }
+        }
+
+        function remove(ids){
+            toDoTask.splice(ids,1);
+            toDoTime.splice(ids,1);
+        }
+
+        function edit(ids){  
+            var editTask = window.prompt("Task Id: "+ids+"\nEdit your Task");
+            var editTime = window.prompt("Task Id: "+ids+"\nEdit your Time");
+            toDoTask[ids] = editTask;
+            toDoTime[ids] = editTime;
+
+            getTasks();            
+        }
+        
+        function add(){
+            var inputTask = document.getElementById('inputTask').value.toUpperCase();
+            var inputTime = document.getElementById('inputTime').value;
+            
+            if(inputTask != "" && inputTime != ""){
+                toDoTask.push(inputTask);
+                toDoTime.push(inputTime);
+                
+                
+                
+                var val = toDoTask.slice(-1);
+                var val2 = toDoTime.slice(-1);
+                var remove = " <button id="+i+" class='btn btn-danger btn-sm' type='button' onclick='remove(this.id)'>Delete</button>";
+                var edit = " <button id="+i+" class='btn btn-sm' type='button' onclick='edit(this.id)'>Edit</button>";
+                var final = document.getElementById('toDo');
+                
+                final.innerHTML += "<h3>" + increment() + ": </h3>" + val + " at " + 
+                                 val2 +  " " + ampm + remove + edit + "<hr><br>";
+                
+                
+            } else{
+                alert('Insert a Task');
+                return false;
+            }
+
+            
+
+        }
+    
+    </script>
+</body>
+</html>   
